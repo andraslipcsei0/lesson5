@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
 jobs:
   job1:
+    concurrency:
+      group: group1
     name: Job 1
     outputs:
       output-one: ${{ steps.step-one.outputs.output1 }}
@@ -55,6 +57,8 @@ jobs:
         shell: cmd
         run: echo job3-step2
   job4:
+    concurrency: group1
+    
     name: Job 4
     runs-on: windows-latest
     steps:
