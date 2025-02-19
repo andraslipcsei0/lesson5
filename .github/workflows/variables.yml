@@ -19,8 +19,8 @@ jobs:
         run: |
           echo ${{ github.actor }}
           echo $GITHUB_JOB
-          echo $WF_WAR
-          echo $JOB_WAR
-          echo $STEP_WAR
+          echo $WF_VAR
+          echo $JOB_VAR
+          echo $STEP_VAR
           echo ${{ vars.CONF_VAR }}
           echo ${{ secrets.A_SECRET }}
