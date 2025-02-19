@@ -1,7 +1,7 @@
 name: variables and secrets
 
 env:
-  WF_WAR: "Workflow level variable"
+  WF_VAR: "Workflow level variable"
 
 on:
   push:
