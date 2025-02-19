@@ -1,0 +1,69 @@
+name: job concurrency, outputs, dependencies
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  job1:
+    name: Job 1
+    outputs:
+      output-one: ${{ steps.step-one.outputs.output1 }}
+    runs-on: windows-latest
+    steps:
+      - name: Step 1
+        id: step1
+        shell: cmd
+        run: |
+          echo job1-step1
+          echo "output1=hello world" >> "$GITHUB_OUTPUT"
+      - name: Step 2
+        id: step2
+        shell: cmd
+        run: echo job1-step2
+      - name: Step 3
+        id: step3
+        run: sleep 60
+      - name: Step 4
+        id: step4
+        run: echo "Job 1 finished."
+  job2:
+    name: Job 2
+    runs-on: windows-latest
+    needs: job1
+    env:
+      OUTPUT_FRM_J: ${{ needs.job1.outputs.output-one }}
+    steps:
+      - name: Step 1
+        id: step1
+        shell: cmd
+        run: echo job2-step1
+      - name: Step 2
+        id: step2
+        shell: cmd
+        run: echo job2-step2
+  job3:
+    name: Job 3
+    runs-on: windows-latest
+    needs: job2
+    if: ${{ always() }}
+    steps:
+      - name: Step 1
+        id: step1
+        shell: cmd
+        run: echo job3-step1
+      - name: Step 2
+  job4:
+    name: Job 4
+    runs-on: windows-latest
+    steps:
+      - name: Step 1
+        id: step1
+        run: echo "Job 4 started."
+      - name: Step 2
+        id: step2
+        run: sleep 60
+      - name: Step 3
+        id: step3
+        run: echo "Job 4 finished."
+        id: step2
+        shell: cmd
+        run: echo job3-step2
